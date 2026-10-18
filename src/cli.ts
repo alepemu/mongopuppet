@@ -1,5 +1,6 @@
-import { intro, outro } from "@clack/prompts";
+import { intro, log, outro } from "@clack/prompts";
 import { getConfig, isConfigured } from "./infra/config.js";
+import { runMenu } from "./ui/menu.js";
 import { runSetup } from "./ui/setup.js";
 
 intro("~~ mongopuppet ~~");
@@ -7,5 +8,8 @@ intro("~~ mongopuppet ~~");
 if (!isConfigured()) await runSetup();
 
 const { uri, database } = getConfig();
+log.info(`uri=${uri} database=${database}`);
 
-outro(`Ready with uri=${uri} and database=${database}`);
+await runMenu();
+
+outro("Bye!");
