@@ -1,13 +1,13 @@
-import { isCancel, log, select } from "@clack/prompts";
+import { isCancel, log, select } from "@clack/prompts"
 
-type Action = "backup" | "purge" | "restore" | "settings" | "exit";
+type Action = "backup" | "purge" | "restore" | "settings" | "exit"
 
 const handlers: Record<Exclude<Action, "exit">, () => Promise<void>> = {
   backup: notImplemented("Backup"),
   purge: notImplemented("Purge"),
   restore: notImplemented("Restore"),
   settings: notImplemented("Settings"),
-};
+}
 
 export async function runMenu(): Promise<void> {
   while (true) {
@@ -20,15 +20,15 @@ export async function runMenu(): Promise<void> {
         { value: "settings", label: "Settings" },
         { value: "exit", label: "Exit" },
       ],
-    });
+    })
 
-    if (isCancel(action) || action === "exit") return;
-    await handlers[action]();
+    if (isCancel(action) || action === "exit") return
+    await handlers[action]()
   }
 }
 
 function notImplemented(name: string) {
   return async () => {
-    log.warn(`${name} is not implemented yet.`);
-  };
+    log.warn(`${name} is not implemented yet.`)
+  }
 }
