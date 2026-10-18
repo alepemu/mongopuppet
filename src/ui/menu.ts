@@ -1,4 +1,5 @@
-import { isCancel, log, select } from "@clack/prompts"
+import { warn } from "./output.js"
+import { pick } from "./prompts.js"
 import { runSettings } from "./settings.js"
 
 type Action = "backup" | "purge" | "restore" | "settings" | "exit"
@@ -12,24 +13,21 @@ const handlers: Record<Exclude<Action, "exit">, () => Promise<void>> = {
 
 export async function runMenu(): Promise<void> {
   while (true) {
-    const action = await select<Action>({
-      message: "What do you want to do?",
-      options: [
-        { value: "backup", label: "Backup" },
-        { value: "purge", label: "Purge" },
-        { value: "restore", label: "Restore" },
-        { value: "settings", label: "Settings" },
-        { value: "exit", label: "Exit" },
-      ],
-    })
+    const action = await pick<Action>("What do you want to do?", [
+      { name: "Backup", value: "backup" },
+      { name: "Purge", value: "purge" },
+      { name: "Restore", value: "restore" },
+      { name: "Settings", value: "settings" },
+      { name: "Exit", value: "exit" },
+    ])
 
-    if (isCancel(action) || action === "exit") return
+    if (action === "exit") return
     await handlers[action]()
   }
 }
 
 function notImplemented(name: string) {
   return async () => {
-    log.warn(`${name} is not implemented yet.`)
+    warn(`${name} is not implemented yet.`)
   }
 }

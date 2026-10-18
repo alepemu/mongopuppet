@@ -36,7 +36,8 @@
     "typescript": "^7.0.2"
   },
   "dependencies": {
-    "@clack/prompts": "^1.8.1",
-    "conf": "^16.0.0"
+    "@inquirer/prompts": "^8.7.3",
+    "conf": "^16.0.0",
+    "picocolors": "^1.1.1"
   }
 }

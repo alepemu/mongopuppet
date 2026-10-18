@@ -1,25 +1,51 @@
-import { isCancel, text } from "@clack/prompts"
+import { input, select } from "@inquirer/prompts"
+import { dim } from "./output.js"
 
-/** Ask for a MongoDB URI. Returns undefined if the user cancels. */
-export async function askUri(initialValue?: string): Promise<string | undefined> {
-  const uri = await text({
-    message: "MongoDB URI",
-    placeholder: "mongodb://localhost:27017",
-    initialValue,
-    validate: (value) =>
-      /^mongodb(\+srv)?:\/\//.test(value ?? "")
-        ? undefined
-        : "URI must start with mongodb:// or mongodb+srv://",
-  })
-  return isCancel(uri) ? undefined : uri
+/** Shared look for all prompts: no "?" / "✔" prefix in front of the question. */
+const theme = { prefix: { idle: "", done: "" } }
+
+/** Runs a prompt. Ctrl+C at any prompt exits the program. */
+async function prompt<T>(run: () => Promise<T>): Promise<T> {
+  try {
+    return await run()
+  } catch (error) {
+    if (error instanceof Error && error.name === "ExitPromptError") {
+      dim("Bye!")
+      process.exit(0)
+    }
+    throw error
+  }
 }
 
-/** Ask for a database name. Returns undefined if the user cancels. */
-export async function askDatabase(initialValue?: string): Promise<string | undefined> {
-  const database = await text({
-    message: "Database",
-    initialValue,
-    validate: (value) => (value?.trim() ? undefined : "Database name is required"),
-  })
-  return isCancel(database) ? undefined : database.trim()
+export function askUri(initialValue?: string): Promise<string> {
+  return prompt(() =>
+    input({
+      message: "MongoDB URI",
+      theme,
+      default: initialValue,
+      prefill: "editable",
+      validate: (value) =>
+        /^mongodb(\+srv)?:\/\//.test(value) || "URI must start with mongodb:// or mongodb+srv://",
+    }),
+  )
+}
+
+export async function askDatabase(initialValue?: string): Promise<string> {
+  const database = await prompt(() =>
+    input({
+      message: "Database",
+      theme,
+      default: initialValue,
+      prefill: "editable",
+      validate: (value) => value.trim().length > 0 || "Database name is required",
+    }),
+  )
+  return database.trim()
+}
+
+export function pick<T extends string>(
+  message: string,
+  choices: { name: string; value: T }[],
+): Promise<T> {
+  return prompt(() => select({ message, choices, theme }))
 }
