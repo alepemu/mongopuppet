@@ -1,0 +1,33 @@
+{
+  "name": "mongopuppet",
+  "version": "0.0.1",
+  "description": "Interactive CLI to backup, restore and purge MongoDB databases",
+  "type": "module",
+  "bin": {
+    "mongopuppet": "dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "start": "node dist/cli.js"
+  },
+  "keywords": [
+    "mongodb",
+    "mongodump",
+    "mongorestore",
+    "cli",
+    "backup"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "tsup": "^9.0.0",
+    "typescript": "^7.0.2"
+  }
+}
