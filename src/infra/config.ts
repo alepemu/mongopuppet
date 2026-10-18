@@ -11,7 +11,7 @@ export function getConfig(): Config {
   return { uri: store.get("uri"), database: store.get("database") }
 }
 
-export function saveConfig(config: Required<Config>): void {
+export function saveConfig(config: Config): void {
   store.set(config)
 }
 

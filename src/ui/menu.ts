@@ -1,4 +1,5 @@
 import { isCancel, log, select } from "@clack/prompts"
+import { runSettings } from "./settings.js"
 
 type Action = "backup" | "purge" | "restore" | "settings" | "exit"
 
@@ -6,7 +7,7 @@ const handlers: Record<Exclude<Action, "exit">, () => Promise<void>> = {
   backup: notImplemented("Backup"),
   purge: notImplemented("Purge"),
   restore: notImplemented("Restore"),
-  settings: notImplemented("Settings"),
+  settings: runSettings,
 }
 
 export async function runMenu(): Promise<void> {
