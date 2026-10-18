@@ -29,5 +29,9 @@
     "@types/node": "^22.20.5",
     "tsup": "^9.0.0",
     "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.8.1",
+    "conf": "^16.0.0"
   }
 }
