@@ -1,5 +1,5 @@
 import { isCancel, log, select } from "@clack/prompts"
-import { configPath, getConfig, saveConfig } from "../infra/config.js"
+import { configPath, getConfig, requireConfig, saveConfig } from "../infra/config.js"
 import { maskUri } from "../utils/maskUri.js"
 import { askDatabase, askUri } from "./prompts.js"
 
@@ -26,11 +26,9 @@ export async function runSettings(): Promise<void> {
 }
 
 function showSettings(): void {
-  const { uri, database } = getConfig()
+  const { uri, database } = requireConfig()
   log.info(
-    [`URI:      ${maskUri(uri ?? "")}`, `Database: ${database}`, `File:     ${configPath()}`].join(
-      "\n",
-    ),
+    [`URI:      ${maskUri(uri)}`, `Database: ${database}`, `File:     ${configPath()}`].join("\n"),
   )
 }
 
