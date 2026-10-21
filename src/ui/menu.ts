@@ -1,6 +1,7 @@
 import { runBackup } from "./backup.js"
 import { warn } from "./output.js"
 import { pick } from "./prompts.js"
+import { runRestore } from "./restore.js"
 import { runSettings } from "./settings.js"
 
 type Action = "backup" | "purge" | "restore" | "settings" | "exit"
@@ -8,7 +9,7 @@ type Action = "backup" | "purge" | "restore" | "settings" | "exit"
 const handlers: Record<Exclude<Action, "exit">, () => Promise<void>> = {
   backup: runBackup,
   purge: notImplemented("Purge"),
-  restore: notImplemented("Restore"),
+  restore: runRestore,
   settings: runSettings,
 }
 

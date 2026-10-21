@@ -12,10 +12,15 @@ export function buildBackupArgs({ uri, database, outDir }: BackupOptions): strin
   return ["--uri", uri, "--db", database, "--out", outDir]
 }
 
+/** backups/<database> */
+export function backupsRoot(database: string): string {
+  return join("backups", database)
+}
+
 /** backups/<database>/<YYYY-MM-DD-HH-mm-ss> */
 export function defaultBackupDir(database: string, now = new Date()): string {
   const stamp = now.toISOString().slice(0, 19).replace(/[T:]/g, "-")
-  return join("backups", database, stamp)
+  return join(backupsRoot(database), stamp)
 }
 
 /**
