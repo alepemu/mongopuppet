@@ -1,4 +1,6 @@
 import { input, select } from "@inquirer/prompts"
+import pc from "picocolors"
+import { maskUri } from "../utils/maskUri.js"
 import { dim } from "./output.js"
 
 /** Shared look for all prompts: no "?" / "✔" prefix in front of the question. */
@@ -21,7 +23,7 @@ export function askUri(initialValue?: string): Promise<string> {
   return prompt(() =>
     input({
       message: "MongoDB URI",
-      theme,
+      theme: { ...theme, style: { answer: (text: string) => pc.cyan(maskUri(text)) } },
       default: initialValue,
       prefill: "editable",
       validate: (value) =>

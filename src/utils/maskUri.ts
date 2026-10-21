@@ -1,4 +1,4 @@
-/** Hides the password in a MongoDB URI so it is safe to print. */
-export function maskUri(uri: string): string {
-  return uri.replace(/(\/\/[^:/@]+):[^@]*@/, "$1:****@")
+/** Hides passwords in any MongoDB URI found in the text, so it is safe to print. */
+export function maskUri(text: string): string {
+  return text.replace(/(\/\/[^:/@\s]+):[^@\s/]*@/g, "$1:****@")
 }
