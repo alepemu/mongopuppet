@@ -29,6 +29,15 @@
     "backup"
   ],
   "license": "MIT",
+  "author": "alepemu",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alepemu/mongopuppet.git"
+  },
+  "homepage": "https://github.com/alepemu/mongopuppet#readme",
+  "bugs": {
+    "url": "https://github.com/alepemu/mongopuppet/issues"
+  },
   "devDependencies": {
     "@biomejs/biome": "2.5.15",
     "@types/node": "^22.20.5",
