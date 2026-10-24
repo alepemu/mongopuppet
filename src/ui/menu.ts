@@ -1,6 +1,6 @@
 import { runBackup } from "./backup.js"
-import { warn } from "./output.js"
 import { pick } from "./prompts.js"
+import { runPurge } from "./purge.js"
 import { runRestore } from "./restore.js"
 import { runSettings } from "./settings.js"
 
@@ -8,7 +8,7 @@ type Action = "backup" | "purge" | "restore" | "settings" | "exit"
 
 const handlers: Record<Exclude<Action, "exit">, () => Promise<void>> = {
   backup: runBackup,
-  purge: notImplemented("Purge"),
+  purge: runPurge,
   restore: runRestore,
   settings: runSettings,
 }
@@ -25,11 +25,5 @@ export async function runMenu(): Promise<void> {
 
     if (action === "exit") return
     await handlers[action]()
-  }
-}
-
-function notImplemented(name: string) {
-  return async () => {
-    warn(`${name} is not implemented yet.`)
   }
 }

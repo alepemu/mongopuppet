@@ -39,6 +39,7 @@
     "@inquirer/prompts": "^8.7.3",
     "conf": "^16.0.0",
     "execa": "^10.2.0",
+    "mongodb": "^7.7.0",
     "picocolors": "^1.1.1"
   }
 }

@@ -45,6 +45,17 @@ export async function askDatabase(initialValue?: string): Promise<string> {
   return database.trim()
 }
 
+/** Asks the user to type `expected` exactly. Used before destructive actions. */
+export async function askTyped(message: string, expected: string): Promise<void> {
+  await prompt(() =>
+    input({
+      message,
+      theme,
+      validate: (value) => value === expected || `Type "${expected}" to continue`,
+    }),
+  )
+}
+
 export function pick<T extends string>(
   message: string,
   choices: { name: string; value: T }[],
