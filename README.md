@@ -42,6 +42,18 @@ pnpm run check     # lint + typecheck
 pnpm run format    # format and fix lint issues
 ```
 
+## Releasing
+
+Publishing is automatic when a version tag is pushed:
+
+```
+# bump "version" in package.json and commit, then:
+git tag v0.1.1
+git push origin main --tags
+```
+
+The workflow in `.github/workflows/publish.yml` checks, builds and publishes to npm. The tag must match the version in `package.json`.
+
 ## License
 
 MIT

@@ -44,6 +44,10 @@ Flow in `cli.ts` (top-level await): check that `mongodump` and `mongorestore` ar
 - Source uses ESM with `.js` extensions in relative imports.
 - `.vscode/` is gitignored; Biome is the formatter (set it as the default formatter in the editor, otherwise format-on-save adds semicolons).
 
+## Releasing
+
+Pushing a `vX.Y.Z` tag runs `.github/workflows/publish.yml`, which checks, builds and publishes to npm through Trusted Publishing (no token). To release: bump `version` in `package.json`, commit, then `git tag vX.Y.Z` and `git push origin main --tags`. The workflow fails if the tag and `package.json` version differ. Never tag a version that is already on npm (`0.1.0` was published by hand).
+
 ## Working agreements
 
 - The project is built one small step at a time: implement, let the user test, then commit.
