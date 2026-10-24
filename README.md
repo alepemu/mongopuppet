@@ -29,6 +29,7 @@ Use the arrow keys and Enter to choose. Press Ctrl+C at any time to exit.
 
 - Passwords in URIs are masked whenever mongopuppet prints them.
 - The URI is stored in plain text in the config file (on Windows: `%APPDATA%\mongopuppet-nodejs\Config\config.json`). Keep that in mind on shared machines.
+- The URI (including the password) is passed to `mongodump` / `mongorestore` as a command-line argument, so other programs on the same machine can see it in the process list while they run.
 - Restore and Purge change data. Try them on a test database first.
 
 ## Development

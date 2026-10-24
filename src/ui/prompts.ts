@@ -1,5 +1,6 @@
 import { input, select } from "@inquirer/prompts"
 import pc from "picocolors"
+import { databaseNameError } from "../utils/databaseName.js"
 import { maskUri } from "../utils/maskUri.js"
 import { dim } from "./output.js"
 
@@ -39,7 +40,7 @@ export async function askDatabase(initialValue?: string): Promise<string> {
       theme,
       default: initialValue,
       prefill: "editable",
-      validate: (value) => value.trim().length > 0 || "Database name is required",
+      validate: (value) => databaseNameError(value.trim()) ?? true,
     }),
   )
   return database.trim()
