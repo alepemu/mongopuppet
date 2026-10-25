@@ -1,16 +1,18 @@
 import { type Db, MongoClient } from "mongodb"
 
-/** Opens a connection, runs `fn` with the database, and always closes the connection. */
-export async function withDb<T>(
+export async function withClient<T>(
   uri: string,
-  database: string,
-  fn: (db: Db) => Promise<T>,
+  fn: (client: MongoClient) => Promise<T>,
 ): Promise<T> {
   const client = new MongoClient(uri, { serverSelectionTimeoutMS: 5000 })
   try {
     await client.connect()
-    return await fn(client.db(database))
+    return await fn(client)
   } finally {
     await client.close()
   }
+}
+
+export function withDb<T>(uri: string, database: string, fn: (db: Db) => Promise<T>): Promise<T> {
+  return withClient(uri, (client) => fn(client.db(database)))
 }
