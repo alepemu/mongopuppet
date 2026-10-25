@@ -1,16 +1,21 @@
+import pc from "picocolors"
 import { purge } from "../core/purge.js"
 import { requireConfig } from "../infra/config.js"
 import { maskUri } from "../utils/maskUri.js"
 import { dim, error, success, warn } from "./output.js"
-import { askTyped } from "./prompts.js"
+import { askTyped, BACK, pick } from "./prompts.js"
 
 export async function runPurge(): Promise<void> {
   const { uri, database } = requireConfig()
 
-  await askTyped(
-    `This deletes ALL collections in "${database}". Type its name to confirm`,
-    database,
+  const choice = await pick(
+    `${pc.yellow("!!")} Delete ALL collections in ${database}?`,
+    [{ name: "Yes, delete everything", value: "delete" }],
+    { canGoBack: true },
   )
+  if (choice === BACK) return
+
+  await askTyped(`Type "delete" to confirm`, "delete")
 
   dim(`Purging ${database}...`)
   try {

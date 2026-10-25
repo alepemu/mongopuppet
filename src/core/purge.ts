@@ -5,12 +5,11 @@ export interface PurgeOptions {
   database: string
 }
 
-/** MongoDB manages `system.*` collections itself, so they are never dropped. */
 export function isUserCollection(name: string): boolean {
   return !name.startsWith("system.")
 }
 
-/** Drops every user collection in the database (the database itself stays). Returns the count. */
+/** Drops every user collection; the database itself stays. */
 export function purge({ uri, database }: PurgeOptions): Promise<number> {
   return withDb(uri, database, async (db) => {
     const collections = await db.listCollections({}, { nameOnly: true }).toArray()
