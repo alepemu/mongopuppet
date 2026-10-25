@@ -1,4 +1,4 @@
-import { rename, rm } from "node:fs/promises"
+import { access, rename, rm } from "node:fs/promises"
 import { join } from "node:path"
 import { run } from "../infra/runner.js"
 
@@ -12,19 +12,29 @@ export function buildBackupArgs({ uri, database, outDir }: BackupOptions): strin
   return ["--uri", uri, "--db", database, "--out", outDir]
 }
 
-/** backups/<database> */
 export function backupsRoot(database: string): string {
   return join("backups", database)
 }
 
-/** backups/<database>/<YYYY-MM-DD-HH-mm-ss> */
-export function defaultBackupDir(database: string, now = new Date()): string {
-  const stamp = now.toISOString().slice(0, 19).replace(/[T:]/g, "-")
-  return join(backupsRoot(database), stamp)
+export function backupPath(database: string, name: string): string {
+  return join(backupsRoot(database), name)
+}
+
+/** UTC on purpose, so names sort the same wherever they were made. */
+export function defaultBackupName(now = new Date()): string {
+  return now.toISOString().slice(0, 19).replace(/[T:]/g, "-")
+}
+
+export async function backupExists(database: string, name: string): Promise<boolean> {
+  try {
+    await access(backupPath(database, name))
+    return true
+  } catch {
+    return false
+  }
 }
 
 /**
- * Dumps the database into options.outDir.
  * mongodump always writes to <out>/<database>/, so we dump to a temporary folder
  * and move that <database> folder to outDir, leaving the files directly inside it.
  */
