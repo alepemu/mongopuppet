@@ -13,7 +13,7 @@ const handlers: Record<Action, () => Promise<void>> = {
   settings: runSettings,
 }
 
-/** Shows the main menu forever. The only way out is Ctrl+C (handled in ui/prompts.ts). */
+/** Never returns: the only way out is Ctrl+C (handled in ui/prompts.ts). */
 export async function runMenu(): Promise<never> {
   while (true) {
     const action = await pick<Action>("What do you want to do?", [
