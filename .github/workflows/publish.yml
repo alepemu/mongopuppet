@@ -39,6 +39,6 @@ jobs:
           fi
 
       - run: pnpm run check
-      - run: pnpm run build
+      - run: pnpm test
 
       - run: npm publish
