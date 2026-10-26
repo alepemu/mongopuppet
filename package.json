@@ -41,7 +41,7 @@
     "url": "https://github.com/alepemu/mongopuppet/issues"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.15",
+    "@biomejs/biome": "2.6.2",
     "@types/node": "^22.20.5",
     "tsup": "^9.0.0",
     "typescript": "^7.0.2",
@@ -54,10 +54,5 @@
     "execa": "^10.2.0",
     "mongodb": "^7.7.0",
     "picocolors": "^1.1.1"
-  },
-  "pnpm": {
-    "overrides": {
-      "fast-uri": ">=3.1.9"
-    }
   }
 }
