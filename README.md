@@ -7,6 +7,8 @@ It wraps `mongodump` and `mongorestore` and uses the official Node driver for pu
 npx mongopuppet
 ```
 
+![mongopuppet demo](https://raw.githubusercontent.com/alepemu/mongopuppet/main/docs/mongopuppet-low.gif)
+
 ## Requirements
 
 - Node.js 22.13 or newer
